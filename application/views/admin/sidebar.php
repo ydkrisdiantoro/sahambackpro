@@ -15,51 +15,36 @@
                 <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
                 <?php
-                $index = "";
-                $input = "";
-                $chart = "";
-                if ($halaman == "index") {
-                    $index = "active";
-                }
-                if ($halaman == "input") {
-                    $input = "active";
-                }
-                if ($halaman == "chart") {
-                    $chart = "active";
+                $nhalaman = array("Dashboard", "Input Data", "Unggah Berkas", "Chart Page");
+                $data_sidebar = array("index", "input", "unggah", "chart");
+                for ($i = 0; $i < count($nhalaman); $i++) {
+                    if ($data_sidebar[$i] == "index") {
+                ?>
+                        <li class="nav-item has-treeview">
+                            <a href="<?= base_url('admin'); ?>" class="nav-link <?php if ($halaman == $data_sidebar[$i]) {
+                                                                                    echo "active";
+                                                                                } ?>">
+                                <i class="nav-icon fas fa-tachometer-alt"></i>
+                                <p>
+                                    <?php echo $nhalaman[$i]; ?>
+                                </p>
+                            </a>
+                        </li>
+                    <?php } else { ?>
+                        <li class="nav-item has-treeview">
+                            <a href="<?= base_url('admin/') . $data_sidebar[$i]; ?>" class="nav-link <?php if ($halaman == $data_sidebar[$i]) {
+                                                                                                            echo "active";
+                                                                                                        } ?>">
+                                <i class="nav-icon fas fa-edit"></i>
+                                <p>
+                                    <?php echo $nhalaman[$i]; ?>
+                                </p>
+                            </a>
+                        </li>
+                <?php
+                    }
                 }
                 ?>
-                <li class="nav-item has-treeview">
-                    <a href="<?= base_url('admin'); ?>" class="nav-link <?php echo $index; ?>">
-                        <i class="nav-icon fas fa-tachometer-alt"></i>
-                        <p>
-                            Dashboard
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item has-treeview">
-                    <a href="<?= base_url('admin/input'); ?>" class="nav-link <?php echo $input; ?>">
-                        <i class="nav-icon fas fa-edit"></i>
-                        <p>
-                            Forms
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item has-treeview">
-                    <a href="<?= base_url('admin/chart'); ?>" class="nav-link <?php echo $chart; ?>">
-                        <i class="nav-icon fas fa-chart-pie"></i>
-                        <p>
-                            Charts
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item has-treeview">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-table"></i>
-                        <p>
-                            Tables
-                        </p>
-                    </a>
-                </li>
             </ul>
         </nav>
         <!-- /.sidebar-menu -->
