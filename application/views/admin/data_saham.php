@@ -33,15 +33,19 @@
                         <div class="card-body">
                           <table id="example1" class="table table-bordered table-striped">
                             <thead>
-                              <th>Rendering engine</th>
-                              <th>Browser</th>
-                              <th>Platform(s)</th>
-                              <th>Engine version</th>
-                              <th>CSS grade</th>
+                              <th>Tanggal</th>
+                              <th>Data Terakhir</th>
+                              <th>Data Pembukaan</th>
+                              <th>Data Tertinggi</th>
+                              <th>Data Terendah</th>
+                              <th>Volume</th>
+                              <th>Perubahan</th>
                             </thead>
                             <tbody>
                                 <?php foreach($listdata as $list) {?>
                                 <tr>
+                                    <td><?php echo $list['tanggal']; ?></td>
+                                    <td><?php echo $list['terakhir']; ?></td>
                                     <td><?php echo $list['pembukaan']; ?></td>
                                     <td><?php echo $list['tertinggi']; ?></td>
                                     <td><?php echo $list['terendah']; ?></td>
@@ -53,11 +57,13 @@
                             </tbody>
                             <tfoot>
                             <tr>
-                              <th>Rendering engine</th>
-                              <th>Browser</th>
-                              <th>Platform(s)</th>
-                              <th>Engine version</th>
-                              <th>CSS grade</th>
+                              <th>Tanggal</th>
+                              <th>Data Terakhir</th>
+                              <th>Data Pembukaan</th>
+                              <th>Data Tertinggi</th>
+                              <th>Data Terendah</th>
+                              <th>Volume</th>
+                              <th>Perubahan</th>
                             </tr>
                             </tfoot>
                          </table>
