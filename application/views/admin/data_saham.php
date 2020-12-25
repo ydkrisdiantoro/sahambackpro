@@ -31,7 +31,36 @@
                         <!-- /.card-header -->
                         <!-- form start -->
                         <div class="card-body">
-                            <h1>BIKIN TABLE DATA SAHAMNYA DI SINI PAKE PAGINATION YA</h1>
+                          <table id="example1" class="table table-bordered table-striped">
+                            <thead>
+                              <th>Rendering engine</th>
+                              <th>Browser</th>
+                              <th>Platform(s)</th>
+                              <th>Engine version</th>
+                              <th>CSS grade</th>
+                            </thead>
+                            <tbody>
+                                <?php foreach($listdata as $list) {?>
+                                <tr>
+                                    <td><?php echo $list['pembukaan']; ?></td>
+                                    <td><?php echo $list['tertinggi']; ?></td>
+                                    <td><?php echo $list['terendah']; ?></td>
+                                    <td><?php echo $list['volume']; ?></td>
+                                    <td><?php echo $list['perubahan']; ?></td>
+                                   
+                                </tr>
+                                <?php } ?>
+                            </tbody>
+                            <tfoot>
+                            <tr>
+                              <th>Rendering engine</th>
+                              <th>Browser</th>
+                              <th>Platform(s)</th>
+                              <th>Engine version</th>
+                              <th>CSS grade</th>
+                            </tr>
+                            </tfoot>
+                         </table>
                         </div>
                     </div>
                     <!-- /.card -->
@@ -43,3 +72,5 @@
     </section>
     <!-- /.content -->
 </div>
+
+<!-- page script -->
