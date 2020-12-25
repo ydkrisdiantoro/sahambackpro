@@ -30,11 +30,13 @@
             </div>
             <!-- /.card-header -->
             <!-- form start -->
-            <form class="form" method="post" enctype="multipart/form-data" action="<?php echo base_url(); ?>admin/proses_upload">
+            <div class="card-body">
+              <form class="form" method="post" enctype="multipart/form-data" action="<?php echo base_url(); ?>admin/proses_upload">
                 <label for="uploadFile" class="d-none">File Upload</label>
                 <input type="file" name="data_excel" class="form-control" id="uploadFile">
                 <button type="submit" value="Upload File" name="submit" class="btn btn-primary mt-3">Upload</button>
-            </form>
+              </form>
+            </div>
           </div>
           <!-- /.card -->
         </div>
