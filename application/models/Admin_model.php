@@ -2,7 +2,7 @@
 
 class Admin_model extends CI_Model
 {
-    public function getNavbarMenu()
+    public function getDataSaham()
     {
         $query = $this->db->get('data_saham');
         return $query->result_array();
