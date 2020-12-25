@@ -66,6 +66,15 @@ class Admin extends CI_Controller
             // echo $tgl;
             $this->admin_model->inputSaham($tgl, $data_baru[1], $data_baru[2], $data_baru[3], $data_baru[4], $data_baru[5], $data_baru[6]);
         }
-        redirect(base_url('admin/unggah'));
+        redirect(base_url('admin/data_saham'));
+    }
+    public function data_saham()
+    {
+        $data['halaman'] = "data_saham";
+        $data['nama_halaman'] = "Data Saham";
+        $this->load->view('admin/header');
+        $this->load->view('admin/sidebar', $data);
+        $this->load->view('admin/data_saham', $data);
+        $this->load->view('admin/footer');
     }
 }
