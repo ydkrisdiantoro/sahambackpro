@@ -57,7 +57,7 @@
                                         $data["tertinggi"][] = $a["tertinggi"];
                                         $data["terendah"][] = $a["terendah"];
                                         $volume = explode("B", $a["volume"]);
-                                        print_r($volume);
+                                        // print_r($volume);
                                         $data["volume"][] = $volume[0];
                                         $data["perubahan"][] = $a["perubahan"];
                                     }
