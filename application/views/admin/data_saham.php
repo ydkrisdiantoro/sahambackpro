@@ -31,42 +31,42 @@
                         <!-- /.card-header -->
                         <!-- form start -->
                         <div class="card-body">
-                          <table id="example1" class="table table-bordered table-striped">
-                            <thead>
-                              <th>Tanggal</th>
-                              <th>Data Terakhir</th>
-                              <th>Data Pembukaan</th>
-                              <th>Data Tertinggi</th>
-                              <th>Data Terendah</th>
-                              <th>Volume</th>
-                              <th>Perubahan</th>
-                            </thead>
-                            <tbody>
-                                <?php foreach($listdata as $list) {?>
-                                <tr>
-                                    <td><?php echo $list['tanggal']; ?></td>
-                                    <td><?php echo $list['terakhir']; ?></td>
-                                    <td><?php echo $list['pembukaan']; ?></td>
-                                    <td><?php echo $list['tertinggi']; ?></td>
-                                    <td><?php echo $list['terendah']; ?></td>
-                                    <td><?php echo $list['volume']; ?></td>
-                                    <td><?php echo $list['perubahan']; ?></td>
-                                   
-                                </tr>
-                                <?php } ?>
-                            </tbody>
-                            <tfoot>
-                            <tr>
-                              <th>Tanggal</th>
-                              <th>Data Terakhir</th>
-                              <th>Data Pembukaan</th>
-                              <th>Data Tertinggi</th>
-                              <th>Data Terendah</th>
-                              <th>Volume</th>
-                              <th>Perubahan</th>
-                            </tr>
-                            </tfoot>
-                         </table>
+                            <table id="example1" class="table table-bordered table-striped">
+                                <thead>
+                                    <th>Tanggal</th>
+                                    <th>Data Terakhir</th>
+                                    <th>Data Pembukaan</th>
+                                    <th>Data Tertinggi</th>
+                                    <th>Data Terendah</th>
+                                    <th>Volume</th>
+                                    <th>Perubahan</th>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($listdata as $list) { ?>
+                                        <tr>
+                                            <td><?php echo $list['tanggal']; ?></td>
+                                            <td><?php echo $list['terakhir']; ?></td>
+                                            <td><?php echo $list['pembukaan']; ?></td>
+                                            <td><?php echo $list['tertinggi']; ?></td>
+                                            <td><?php echo $list['terendah']; ?></td>
+                                            <td><?php echo $list['volume']; ?></td>
+                                            <td><?php echo $list['perubahan']; ?></td>
+
+                                        </tr>
+                                    <?php } ?>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>Tanggal</th>
+                                        <th>Data Terakhir</th>
+                                        <th>Data Pembukaan</th>
+                                        <th>Data Tertinggi</th>
+                                        <th>Data Terendah</th>
+                                        <th>Volume</th>
+                                        <th>Perubahan</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
                         </div>
                     </div>
                     <!-- /.card -->

@@ -72,9 +72,7 @@ class Admin extends CI_Controller
     {
         $data['halaman'] = "data_saham";
         $data['nama_halaman'] = "Data Saham";
-        $data['listdata'] = $this->db->query(
-            "SELECT * FROM data_saham"
-        )->result_array();
+        $data['listdata'] = $this->admin_model->getDataSaham();
         $this->load->view('admin/header');
         $this->load->view('admin/sidebar', $data);
         $this->load->view('admin/data_saham', $data);
