@@ -15,8 +15,8 @@
                 <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
                 <?php
-                $nhalaman = array("Dashboard", "Input Data", "Unggah Berkas", "Chart Page", "Data Saham");
-                $data_sidebar = array("index", "input", "unggah", "chart", "data_saham");
+                $nhalaman = array("Dashboard", "Input Data", "Unggah Berkas", "Chart Page", "Data Saham", "Proses Backpro");
+                $data_sidebar = array("index", "input", "unggah", "chart", "data_saham", "proses");
                 for ($i = 0; $i < count($nhalaman); $i++) {
                     if ($data_sidebar[$i] == "index") {
                 ?>

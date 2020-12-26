@@ -78,4 +78,14 @@ class Admin extends CI_Controller
         $this->load->view('admin/data_saham', $data);
         $this->load->view('admin/footer');
     }
+    public function proses()
+    {
+        $data['halaman'] = "proses";
+        $data['nama_halaman'] = "Proses Backpro";
+        $data['listdata'] = $this->admin_model->getDataSaham();
+        $this->load->view('admin/header');
+        $this->load->view('admin/sidebar', $data);
+        $this->load->view('admin/data_saham', $data);
+        $this->load->view('admin/footer');
+    }
 }
