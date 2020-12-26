@@ -85,7 +85,7 @@ class Admin extends CI_Controller
         $data['listdata'] = $this->admin_model->getDataSaham();
         $this->load->view('admin/header');
         $this->load->view('admin/sidebar', $data);
-        $this->load->view('admin/data_saham', $data);
+        $this->load->view('admin/proses', $data);
         $this->load->view('admin/footer');
     }
 }
