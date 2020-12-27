@@ -31,7 +31,7 @@
                         <!-- /.card-header -->
                         <!-- form start -->
                         <div class="card-body">
-                            <table id="example1" class="table table-bordered table-striped">
+                            <table id="example1" class="display table table-bordered table-striped">
                                 <thead>
                                     <th>Tanggal</th>
                                     <th>Data Terakhir</th>

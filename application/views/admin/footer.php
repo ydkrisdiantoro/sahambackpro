@@ -44,19 +44,10 @@
 <script src="<?= base_url('assets/admin/'); ?>plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
 
 <script>
-  $(function () {
-    $("#example1").DataTable({
+  $(function() {
+    $("table.display").DataTable({
       "responsive": true,
       "autoWidth": false,
-    });
-    $('#example2').DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "searching": false,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false,
-      "responsive": true,
     });
   });
 </script>
