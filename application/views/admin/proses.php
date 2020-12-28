@@ -162,6 +162,7 @@
                                         <tfoot>
                                             <tr>
                                                 <th>Tanggal</th>
+                                                <th>Xi</th>
                                                 <th>Data Terakhir</th>
                                                 <th>Data Pembukaan</th>
                                                 <th>Data Tertinggi</th>
