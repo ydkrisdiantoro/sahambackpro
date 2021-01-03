@@ -122,7 +122,7 @@
                                 </div>
 
                                 <div class="col-12 my-3">
-                                    <h3 class="card-title alert alert-secondary">2. Inisialisasi Bobot Awal</h3>
+                                    <h3 class="card-title alert alert-secondary">2. Inisialisasi Bobot Awal Input-Hidden Layer</h3>
                                 </div>
                                 <div class="col-12">
                                     <table id="inisialisasi_bobot_awal" class="display table table-bordered table-striped">
@@ -144,20 +144,38 @@
                                                 $hasil = $random / 10;
                                                 return $hasil;
                                             }
+                                            $Xi_0 = array();
+                                            $Xi_0_bias = array('0.1', '0.1', '0.1', '0.1', '0.1', '0.1');
                                             for ($i = 0; $i < count($data_normal["tanggal"]); $i++) {
                                                 $no_xi = $i + 1;
+                                                $Xi_0["Z1"][] = random();
+                                                $Xi_0["Z2"][] = random();
+                                                $Xi_0["Z3"][] = random();
+                                                $Xi_0["Z4"][] = random();
+                                                $Xi_0["Z5"][] = random();
+                                                $Xi_0["Z6"][] = random();
                                             ?>
                                                 <tr>
                                                     <td><?php echo $data_normal['tanggal'][$i]; ?></td>
                                                     <td><?php echo $no_xi; ?></td>
-                                                    <td><?php echo random(); ?></td>
-                                                    <td><?php echo random(); ?></td>
-                                                    <td><?php echo random(); ?></td>
-                                                    <td><?php echo random(); ?></td>
-                                                    <td><?php echo random(); ?></td>
-                                                    <td><?php echo random(); ?></td>
+                                                    <td><?php echo $Xi_0["Z1"][$i]; ?></td>
+                                                    <td><?php echo $Xi_0["Z2"][$i]; ?></td>
+                                                    <td><?php echo $Xi_0["Z3"][$i]; ?></td>
+                                                    <td><?php echo $Xi_0["Z4"][$i]; ?></td>
+                                                    <td><?php echo $Xi_0["Z5"][$i]; ?></td>
+                                                    <td><?php echo $Xi_0["Z6"][$i]; ?></td>
                                                 </tr>
                                             <?php } ?>
+                                            <tr>
+                                                <td><?php echo "1"; ?></td>
+                                                <td><?php echo ""; ?></td>
+                                                <td><?php echo $Xi_0_bias[0]; ?></td>
+                                                <td><?php echo $Xi_0_bias[1]; ?></td>
+                                                <td><?php echo $Xi_0_bias[2]; ?></td>
+                                                <td><?php echo $Xi_0_bias[3]; ?></td>
+                                                <td><?php echo $Xi_0_bias[4]; ?></td>
+                                                <td><?php echo $Xi_0_bias[5]; ?></td>
+                                            </tr>
                                         </tbody>
                                         <tfoot>
                                             <tr>
@@ -173,6 +191,264 @@
                                         </tfoot>
                                     </table>
                                 </div>
+
+                                <div class="col-12 my-3">
+                                    <h3 class="card-title alert alert-warning">3. Inisialisasi Bobot Awal Hidden-Output Layer</h3>
+                                </div>
+                                <div class="col-12">
+                                    <table id="inisialisasi_bobot_awal" class="table table-bordered table-striped">
+                                        <thead>
+                                            <th></th>
+                                            <th>Y</th>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            $Zi = array();
+                                            $Zi_bias = 0.1;
+                                            for ($i = 0; $i < count($Xi_0); $i++) {
+                                                $no_xi = $i + 1;
+                                                $Zi[] = random();
+                                            ?>
+                                                <tr>
+                                                    <td><?php echo "Z" . $no_xi; ?></td>
+                                                    <td><?php echo $Zi[$i]; ?></td>
+                                                </tr>
+                                            <?php } ?>
+                                            <tr>
+                                                <td><?php echo '1'; ?></td>
+                                                <td><?php echo $Zi_bias; ?></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="col-12 my-3">
+                                    <h3 class="card-title alert alert-danger">4. Menentukan nilai epoch maksimum dan nilai minimum error </h3>
+                                </div>
+                                <div class="col-12">
+                                    <?php
+                                    $epoch = 10;
+                                    $min_error = 0.2;
+                                    ?>
+                                    <h4>Nilai maksimum epoch: <?php echo $epoch; ?></h4>
+                                    <h4>Nilai minimum error: <?php echo $min_error; ?></h4>
+                                </div>
+
+                                <div class="col-12 my-3">
+                                    <h3 class="card-title alert alert-info">5. Proses Feedforward (XiVij)</h3>
+                                </div>
+                                <div class="col-12">
+                                    <table id="inisialisasi_bobot_awal" class="display table table-bordered table-striped">
+                                        <thead>
+                                            <th>Tanggal</th>
+                                            <th>Xi</th>
+                                            <th>(Xi*Z1)</th>
+                                            <th>(Xi*Z2)</th>
+                                            <th>(Xi*Z3)</th>
+                                            <th>(Xi*Z4)</th>
+                                            <th>(Xi*Z5)</th>
+                                            <th>(Xi*Z6)</th>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            $Xi = $data_normal;
+                                            $Vij = $Xi_0;
+                                            $Xi_Vij = array();
+
+                                            for ($i = 0; $i < count($Xi["tanggal"]); $i++) {
+                                                $no_xi = $i + 1;
+                                                $Xi_Vij["Z1"][] = $Xi["terakhir"][$i] * $Vij["Z1"][$i];
+                                                $Xi_Vij["Z2"][] = $Xi["pembukaan"][$i] * $Vij["Z2"][$i];
+                                                $Xi_Vij["Z3"][] = $Xi["tertinggi"][$i] * $Vij["Z3"][$i];
+                                                $Xi_Vij["Z4"][] = $Xi["terendah"][$i] * $Vij["Z4"][$i];
+                                                $Xi_Vij["Z5"][] = $Xi["volume"][$i] * $Vij["Z5"][$i];
+                                                $Xi_Vij["Z6"][] = $Xi["perubahan"][$i] * $Vij["Z6"][$i];
+                                            ?>
+                                                <tr>
+                                                    <td><?php echo $data_normal['tanggal'][$i]; ?></td>
+                                                    <td><?php echo $no_xi; ?></td>
+                                                    <td><?php echo $Xi_Vij["Z1"][$i]; ?></td>
+                                                    <td><?php echo $Xi_Vij["Z2"][$i]; ?></td>
+                                                    <td><?php echo $Xi_Vij["Z3"][$i]; ?></td>
+                                                    <td><?php echo $Xi_Vij["Z4"][$i]; ?></td>
+                                                    <td><?php echo $Xi_Vij["Z5"][$i]; ?></td>
+                                                    <td><?php echo $Xi_Vij["Z6"][$i]; ?></td>
+                                                </tr>
+                                            <?php } ?>
+                                            <tr>
+                                                <td><?php echo "1"; ?></td>
+                                                <td><?php echo ""; ?></td>
+                                                <td><?php echo $Xi_0_bias[0]; ?></td>
+                                                <td><?php echo $Xi_0_bias[1]; ?></td>
+                                                <td><?php echo $Xi_0_bias[2]; ?></td>
+                                                <td><?php echo $Xi_0_bias[3]; ?></td>
+                                                <td><?php echo $Xi_0_bias[4]; ?></td>
+                                                <td><?php echo $Xi_0_bias[5]; ?></td>
+                                            </tr>
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th>Tanggal</th>
+                                                <th>Xi</th>
+                                                <th>Data Terakhir</th>
+                                                <th>Data Pembukaan</th>
+                                                <th>Data Tertinggi</th>
+                                                <th>Data Terendah</th>
+                                                <th>Volume</th>
+                                                <th>Perubahan</th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+
+                                <div class="col-12 my-3">
+                                    <h3 class="card-title alert alert-info">6. Proses Feedforward hasil di hidden layer (Znet)</h3>
+                                </div>
+                                <div class="col-12">
+                                    <table id="inisialisasi_bobot_awal" class="table table-bordered table-striped">
+                                        <thead>
+                                            <th>Znet_1</th>
+                                            <th>Znet_2</th>
+                                            <th>Znet_3</th>
+                                            <th>Znet_4</th>
+                                            <th>Znet_5</th>
+                                            <th>Znet_6</th>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            $Znet = array();
+
+                                            for ($i = 0; $i < count($Xi_Vij); $i++) {
+                                                $no_xi = $i + 1;
+                                                $Znet[$i] = 0;
+                                                for ($j = 0; $j < count($Xi_Vij["Z1"]); $j++) {
+                                                    $Znet[$i] = $Znet[$i] + $Xi_Vij["Z" . $no_xi][$j];
+                                                }
+                                                $Znet[$i] = $Xi_0_bias[$i] + $Znet[$i];
+                                            } ?>
+                                            <tr>
+                                                <td><?php echo $Znet[0]; ?></td>
+                                                <td><?php echo $Znet[1]; ?></td>
+                                                <td><?php echo $Znet[2]; ?></td>
+                                                <td><?php echo $Znet[3]; ?></td>
+                                                <td><?php echo $Znet[4]; ?></td>
+                                                <td><?php echo $Znet[5]; ?></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-12 my-3">
+                                    <h3 class="card-title alert alert-info">7. Proses Feedforward hasil di hidden layer (Znet) dengan fungsi aktivasi</h3>
+                                </div>
+                                <div class="col-12">
+                                    <table id="inisialisasi_bobot_awal" class="table table-bordered table-striped">
+                                        <thead>
+                                            <th>Z_1</th>
+                                            <th>Z_2</th>
+                                            <th>Z_3</th>
+                                            <th>Z_4</th>
+                                            <th>Z_5</th>
+                                            <th>Z_6</th>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            $Z = array();
+
+                                            for ($i = 0; $i < count($Znet); $i++) {
+                                                $no_xi = $i + 1;
+                                                $Z[$i] = 1 / (1 + exp(-$Znet[$i]));
+                                            } ?>
+                                            <tr>
+                                                <td><?php echo $Z[0]; ?></td>
+                                                <td><?php echo $Z[1]; ?></td>
+                                                <td><?php echo $Z[2]; ?></td>
+                                                <td><?php echo $Z[3]; ?></td>
+                                                <td><?php echo $Z[4]; ?></td>
+                                                <td><?php echo $Z[5]; ?></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-12 my-3">
+                                    <h3 class="card-title alert alert-info">8. Output Layer (Zj*Wjk)</h3>
+                                </div>
+                                <div class="col-12">
+                                    <table id="inisialisasi_bobot_awal" class="table table-bordered table-striped">
+                                        <thead>
+                                            <th>Zj_Wj1</th>
+                                            <th>Zj_Wj2</th>
+                                            <th>Zj_Wj3</th>
+                                            <th>Zj_Wj4</th>
+                                            <th>Zj_Wj5</th>
+                                            <th>Zj_Wj6</th>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            $W0 = $Zi_bias;
+                                            $Wjk = $Zi;
+                                            $Zj_Wjk = array();
+                                            for ($i = 0; $i < count($Z); $i++) {
+                                                $no_xi = $i + 1;
+                                                $Zj_Wjk[$i] = $Z[$i] * $Wjk[$i];
+                                            } ?>
+                                            <tr>
+                                                <td><?php echo $Zj_Wjk[0]; ?></td>
+                                                <td><?php echo $Zj_Wjk[1]; ?></td>
+                                                <td><?php echo $Zj_Wjk[2]; ?></td>
+                                                <td><?php echo $Zj_Wjk[3]; ?></td>
+                                                <td><?php echo $Zj_Wjk[4]; ?></td>
+                                                <td><?php echo $Zj_Wjk[5]; ?></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-12 my-3">
+                                    <h3 class="card-title alert alert-info">9. Output Layer (Ynet)</h3>
+                                </div>
+                                <div class="col-12">
+                                    <table id="inisialisasi_bobot_awal" class="table table-bordered table-striped">
+                                        <thead>
+                                            <th>Ynet</th>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            $Ynet = 0;
+                                            for ($i = 0; $i < count($Zj_Wjk); $i++) {
+                                                $no_xi = $i + 1;
+                                                $Ynet = $Ynet + $Zj_Wjk[$i];
+                                            }
+                                            $Ynet = $W0 * $Ynet;
+                                            ?>
+                                            <tr>
+                                                <td><?php echo $Ynet; ?></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-12 my-3">
+                                    <h3 class="card-title alert alert-info">10. Hasil keluaran dengan fungsi aktivasi (Y)</h3>
+                                </div>
+                                <div class="col-12">
+                                    <table id="inisialisasi_bobot_awal" class="table table-bordered table-striped">
+                                        <thead>
+                                            <th>Y</th>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            $Y = 1 / (1 + exp(-$Ynet));
+                                            ?>
+                                            <tr>
+                                                <td><?php echo $Y; ?></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="col-12 my-3">
+                                    <h3 class="card-title alert alert-danger">11. PROSES BACKWARD</h3>
+                                </div>
+
+
                             </div>
 
                         </div>
