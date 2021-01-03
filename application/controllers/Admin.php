@@ -82,10 +82,30 @@ class Admin extends CI_Controller
     {
         $data['halaman'] = "proses";
         $data['nama_halaman'] = "Proses Backpro";
-        $data['listdata'] = $this->admin_model->getDataSaham();
+        $data['listdata'] = $this->admin_model->getDataSahamTerakhir();
+        $data['data_training'] = $this->admin_model->getDataTraining();
         $this->load->view('admin/header');
         $this->load->view('admin/sidebar', $data);
         $this->load->view('admin/proses', $data);
         $this->load->view('admin/footer');
+    }
+    public function input_data_training()
+    {
+        function random_angka()
+        {
+            $hasil = 0;
+            while ($hasil == 0) {
+                $random = rand(-9, 9);
+                $hasil = $random / 10;
+            }
+            return $hasil;
+        }
+        for ($i = 0; $i < 8; $i++) {
+            $x = "";
+            for ($j = 0; $j <= 8; $j++) {
+                $x = $x . "#" . random_angka();
+            }
+            $this->admin_model->inputDataTraining($x);
+        }
     }
 }

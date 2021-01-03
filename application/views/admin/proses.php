@@ -17,6 +17,18 @@
         </div><!-- /.container-fluid -->
     </section>
 
+    <?php
+    function random()
+    {
+        $hasil = 0;
+        while ($hasil == 0) {
+            $random = rand(-9, 9);
+            $hasil = $random / 10;
+        }
+        return $hasil;
+    }
+    $a = 0.3;
+    ?>
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
@@ -45,12 +57,8 @@
                                     <table id="normalisasi" class="display table table-bordered table-striped">
                                         <thead>
                                             <th>Tanggal</th>
-                                            <th>Data Terakhir (Z1)</th>
-                                            <th>Data Pembukaan (Z2)</th>
-                                            <th>Data Tertinggi (Z3)</th>
-                                            <th>Data Terendah (Z4)</th>
-                                            <th>Volume (Z5)</th>
-                                            <th>Perubahan (Z6)</th>
+                                            <th>Data Terakhir</th>
+                                            <th>Data Terakhir (Normal)</th>
                                         </thead>
                                         <tbody>
                                             <?php
@@ -59,395 +67,468 @@
                                             foreach ($listdata as $a) {
                                                 $data["tanggal"][] = $a["tanggal"];
                                                 $data["terakhir"][] = $a["terakhir"];
-                                                $data["pembukaan"][] = $a["pembukaan"];
-                                                $data["tertinggi"][] = $a["tertinggi"];
-                                                $data["terendah"][] = $a["terendah"];
-                                                $volume = explode("B", $a["volume"]);
-                                                // print_r($volume);
-                                                $data["volume"][] = $volume[0];
-                                                $data["perubahan"][] = $a["perubahan"];
                                             }
                                             $terakhir_max = max($data["terakhir"]);
-                                            $pembukaan_max = max($data["pembukaan"]);
-                                            $tertinggi_max = max($data["tertinggi"]);
-                                            $terendah_max = max($data["terendah"]);
-                                            $volume_max = max($data["volume"]);
-                                            $perubahan_max = max($data["perubahan"]);
 
                                             $terakhir_min = min($data["terakhir"]);
-                                            $pembukaan_min = min($data["pembukaan"]);
-                                            $tertinggi_min = min($data["tertinggi"]);
-                                            $terendah_min = min($data["terendah"]);
-                                            $volume_min = min($data["volume"]);
-                                            $perubahan_min = min($data["perubahan"]);
 
                                             for ($i = 0; $i < count($data["tanggal"]); $i++) {
-                                                $hasil_terakhir = round(($data["terakhir"][$i] - $terakhir_min) / ($terakhir_max - $terakhir_min), 6);
-                                                $hasil_pembukaan = round(($data["pembukaan"][$i] - $pembukaan_min) / ($pembukaan_max - $pembukaan_min), 6);
-                                                $hasil_tertinggi = round(($data["tertinggi"][$i] - $tertinggi_min) / ($tertinggi_max - $tertinggi_min), 6);
-                                                $hasil_terendah = round(($data["terendah"][$i] - $terendah_min) / ($terendah_max - $terendah_min), 6);
-                                                $hasil_perubahan = round(($data["perubahan"][$i] - $perubahan_min) / ($perubahan_max - $perubahan_min), 6);
-                                                $hasil_volume = round(($data["volume"][$i] - $volume_min) / ($volume_max - $volume_min), 6);
-                                                $data_normal["tanggal"][] = $data['tanggal'][$i];
-                                                $data_normal["terakhir"][] = $hasil_terakhir;
-                                                $data_normal["pembukaan"][] = $hasil_pembukaan;
-                                                $data_normal["tertinggi"][] = $hasil_tertinggi;
-                                                $data_normal["terendah"][] = $hasil_terendah;
-                                                $data_normal["volume"][] = $hasil_volume;
-                                                $data_normal["perubahan"][] = $hasil_perubahan;;                                            ?>
+                                                $hasil_terakhir = round(((0.8 * ($data["terakhir"][$i] - $terakhir_min)) / ($terakhir_max - $terakhir_min)) + 0.1, 6);
+                                                $data_normal["terakhir"][] = $hasil_terakhir;;
+                                            ?>
                                                 <tr>
                                                     <td><?php echo $data['tanggal'][$i]; ?></td>
+                                                    <td><?php echo $data['terakhir'][$i]; ?></td>
                                                     <td><?php echo $hasil_terakhir; ?></td>
-                                                    <td><?php echo $hasil_pembukaan; ?></td>
-                                                    <td><?php echo $hasil_tertinggi; ?></td>
-                                                    <td><?php echo $hasil_terendah; ?></td>
-                                                    <td><?php echo $hasil_volume; ?></td>
-                                                    <td><?php echo $hasil_perubahan; ?></td>
 
                                                 </tr>
-                                            <?php } ?>
+                                            <?php
+                                            } ?>
                                         </tbody>
                                         <tfoot>
                                             <tr>
                                                 <th>Tanggal</th>
-                                                <th>Data Terakhir (Z1)</th>
-                                                <th>Data Pembukaan (Z2)</th>
-                                                <th>Data Tertinggi (Z3)</th>
-                                                <th>Data Terendah (Z4)</th>
-                                                <th>Volume (Z5)</th>
-                                                <th>Perubahan (Z6)</th>
+                                                <th>Data Terakhir</th>
+                                                <th>Data Terakhir (Normal)</th>
                                             </tr>
                                         </tfoot>
                                     </table>
                                 </div>
 
                                 <div class="col-12 my-3">
-                                    <h3 class="card-title alert alert-secondary">2. Inisialisasi Bobot Awal Input-Hidden Layer</h3>
+                                    <h3 class="card-title alert alert-secondary">2. Tabel Data Training</h3>
                                 </div>
-                                <div class="col-12">
-                                    <table id="inisialisasi_bobot_awal" class="display table table-bordered table-striped">
+                                <div class="col-12" style="overflow-x: scroll;">
+                                    <table id="inisialisasi_bobot_awal" class="table table-bordered table-striped">
                                         <thead>
-                                            <th>Tanggal</th>
-                                            <th>Xi</th>
-                                            <th>(Z1)</th>
-                                            <th>(Z2)</th>
-                                            <th>(Z3)</th>
-                                            <th>(Z4)</th>
-                                            <th>(Z5)</th>
-                                            <th>(Z6)</th>
-                                        </thead>
-                                        <tbody>
+                                            <th>Pola</th>
                                             <?php
-                                            function random()
-                                            {
-                                                $random = rand(0, 10);
-                                                $hasil = $random / 10;
-                                                return $hasil;
+                                            $n = count($data["tanggal"]) / 2;
+                                            for ($i = 1; $i <= $n; $i++) {
+                                                echo '<th>X' . $i . '</th>';
                                             }
+                                            ?>
+                                            <th>Target</th>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            // 26 data
+
+                                            $Xi = $data_normal["terakhir"];
                                             $Xi_0 = array();
-                                            $Xi_0_bias = array('0.1', '0.1', '0.1', '0.1', '0.1', '0.1');
-                                            for ($i = 0; $i < count($data_normal["tanggal"]); $i++) {
-                                                $no_xi = $i + 1;
-                                                $Xi_0["Z1"][] = random();
-                                                $Xi_0["Z2"][] = random();
-                                                $Xi_0["Z3"][] = random();
-                                                $Xi_0["Z4"][] = random();
-                                                $Xi_0["Z5"][] = random();
-                                                $Xi_0["Z6"][] = random();
+                                            for ($i = 0; $i < $n; $i++) {
+                                                $awal = $i;
+                                                $akhir = $i + $n;
+                                                $no = $i + 1;
+                                                echo '<tr>';
+                                                echo '<td>' . $no . '</td>';
+                                                for ($j = $awal; $j <= $akhir; $j++) {
+                                                    echo '<td>' . $Xi[$j] . '</td>';
+                                                    $Xi_0[$i][] = $Xi[$j];
+                                                }
+                                                echo '</tr>';
+                                            }
                                             ?>
-                                                <tr>
-                                                    <td><?php echo $data_normal['tanggal'][$i]; ?></td>
-                                                    <td><?php echo $no_xi; ?></td>
-                                                    <td><?php echo $Xi_0["Z1"][$i]; ?></td>
-                                                    <td><?php echo $Xi_0["Z2"][$i]; ?></td>
-                                                    <td><?php echo $Xi_0["Z3"][$i]; ?></td>
-                                                    <td><?php echo $Xi_0["Z4"][$i]; ?></td>
-                                                    <td><?php echo $Xi_0["Z5"][$i]; ?></td>
-                                                    <td><?php echo $Xi_0["Z6"][$i]; ?></td>
-                                                </tr>
-                                            <?php } ?>
-                                            <tr>
-                                                <td><?php echo "1"; ?></td>
-                                                <td><?php echo ""; ?></td>
-                                                <td><?php echo $Xi_0_bias[0]; ?></td>
-                                                <td><?php echo $Xi_0_bias[1]; ?></td>
-                                                <td><?php echo $Xi_0_bias[2]; ?></td>
-                                                <td><?php echo $Xi_0_bias[3]; ?></td>
-                                                <td><?php echo $Xi_0_bias[4]; ?></td>
-                                                <td><?php echo $Xi_0_bias[5]; ?></td>
-                                            </tr>
-                                        </tbody>
-                                        <tfoot>
-                                            <tr>
-                                                <th>Tanggal</th>
-                                                <th>Xi</th>
-                                                <th>Data Terakhir</th>
-                                                <th>Data Pembukaan</th>
-                                                <th>Data Tertinggi</th>
-                                                <th>Data Terendah</th>
-                                                <th>Volume</th>
-                                                <th>Perubahan</th>
-                                            </tr>
-                                        </tfoot>
-                                    </table>
-                                </div>
-
-                                <div class="col-12 my-3">
-                                    <h3 class="card-title alert alert-warning">3. Inisialisasi Bobot Awal Hidden-Output Layer</h3>
-                                </div>
-                                <div class="col-12">
-                                    <table id="inisialisasi_bobot_awal" class="table table-bordered table-striped">
-                                        <thead>
-                                            <th></th>
-                                            <th>Y</th>
-                                        </thead>
-                                        <tbody>
-                                            <?php
-                                            $Zi = array();
-                                            $Zi_bias = 0.1;
-                                            for ($i = 0; $i < count($Xi_0); $i++) {
-                                                $no_xi = $i + 1;
-                                                $Zi[] = random();
-                                            ?>
-                                                <tr>
-                                                    <td><?php echo "Z" . $no_xi; ?></td>
-                                                    <td><?php echo $Zi[$i]; ?></td>
-                                                </tr>
-                                            <?php } ?>
-                                            <tr>
-                                                <td><?php echo '1'; ?></td>
-                                                <td><?php echo $Zi_bias; ?></td>
-                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
 
                                 <div class="col-12 my-3">
-                                    <h3 class="card-title alert alert-danger">4. Menentukan nilai epoch maksimum dan nilai minimum error </h3>
+                                    <h3 class="card-title alert alert-secondary">3. Inisialisasi Bobot Awal Input-Hidden Layer</h3>
                                 </div>
-                                <div class="col-12">
-                                    <?php
-                                    $epoch = 10;
-                                    $min_error = 0.2;
-                                    ?>
-                                    <h4>Nilai maksimum epoch: <?php echo $epoch; ?></h4>
-                                    <h4>Nilai minimum error: <?php echo $min_error; ?></h4>
-                                </div>
-
-                                <div class="col-12 my-3">
-                                    <h3 class="card-title alert alert-info">5. Proses Feedforward (XiVij)</h3>
-                                </div>
-                                <div class="col-12">
-                                    <table id="inisialisasi_bobot_awal" class="display table table-bordered table-striped">
+                                <div class="col-12" style="overflow-x: scroll;">
+                                    <table class="table table-bordered table-striped">
                                         <thead>
-                                            <th>Tanggal</th>
-                                            <th>Xi</th>
-                                            <th>(Xi*Z1)</th>
-                                            <th>(Xi*Z2)</th>
-                                            <th>(Xi*Z3)</th>
-                                            <th>(Xi*Z4)</th>
-                                            <th>(Xi*Z5)</th>
-                                            <th>(Xi*Z6)</th>
+                                            <tr>
+                                                <th></th>
+                                                <th>Z1</th>
+                                                <th>Z2</th>
+                                                <th>Z3</th>
+                                            </tr>
                                         </thead>
                                         <tbody>
                                             <?php
-                                            $Xi = $data_normal;
-                                            $Vij = $Xi_0;
+                                            $no = 0;
+                                            $Vij = array();
+                                            for ($i = 0; $i <= $n; $i++) {
+                                                $Vij['Z1'][$i] = random();
+                                                $Vij['Z2'][$i] = random();
+                                                $Vij['Z3'][$i] = random();
+
+                                                $no = $i + 1;
+                                                $print = "";
+                                                if ($i == 0) {
+                                                    $print = 1;
+                                                } else {
+                                                    $print = "X" . $i;
+                                                }
+                                            ?>
+                                                <tr>
+                                                    <td><?php echo $print; ?></td>
+                                                    <td><?php echo $Vij['Z1'][$i]; ?></td>
+                                                    <td><?php echo $Vij['Z2'][$i]; ?></td>
+                                                    <td><?php echo $Vij['Z3'][$i]; ?></td>
+                                                </tr>
+                                            <?php
+                                            }
+                                            ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-12 my-3">
+                                    <h3 class="card-title alert alert-secondary">4. bobot dari layer tersembunyi ke layer output </h3>
+                                </div>
+                                <div class="col-12" style="overflow-x: scroll;">
+                                    <table class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th>Y</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            $Wjk = array('', '', '', '');
+                                            for ($i = 0; $i < count($Wjk); $i++) {
+                                                $no = $i + 1;
+                                                $print = "";
+                                                $Wjk[$i] = random();
+                                                if ($i == 0) {
+                                                    $print = 1;
+                                                } else {
+                                                    $print = "Z" . $i;
+                                                }
+                                                echo '<tr>';
+                                                echo '<td>' . $print . '</td>';
+                                                echo '<td>' . $Wjk[$i] . '</td>';
+                                                echo '</tr>';
+                                            }
+                                            ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-12 my-3">
+                                    <h3 class="card-title alert alert-secondary">5. Propagasi Maju (Xi*Vij) </h3>
+                                </div>
+                                <div class="col-12" style="overflow-x: scroll;">
+                                    <table class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>No</th>
+                                                <?php
+                                                for ($i = 1; $i < count($Vij['Z1']); $i++) {
+                                                    echo '<th>Xi*Vij ' . $i . '</th>';
+                                                }
+                                                ?>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
                                             $Xi_Vij = array();
-
-                                            for ($i = 0; $i < count($Xi["tanggal"]); $i++) {
-                                                $no_xi = $i + 1;
-                                                $Xi_Vij["Z1"][] = $Xi["terakhir"][$i] * $Vij["Z1"][$i];
-                                                $Xi_Vij["Z2"][] = $Xi["pembukaan"][$i] * $Vij["Z2"][$i];
-                                                $Xi_Vij["Z3"][] = $Xi["tertinggi"][$i] * $Vij["Z3"][$i];
-                                                $Xi_Vij["Z4"][] = $Xi["terendah"][$i] * $Vij["Z4"][$i];
-                                                $Xi_Vij["Z5"][] = $Xi["volume"][$i] * $Vij["Z5"][$i];
-                                                $Xi_Vij["Z6"][] = $Xi["perubahan"][$i] * $Vij["Z6"][$i];
+                                            //count($Vij) = 3 (Z1,Z2,Z3)
+                                            for ($i = 0; $i < count($Vij); $i++) {
+                                                $no = $i + 1;
+                                                echo '<tr>';
+                                                echo '<td>' . $no . '</td>';
+                                                for ($j = 1; $j < count($Vij["Z1"]); $j++) {
+                                                    $Xi_Vij[$i][$j] = $Vij["Z" . $no][$j] * $Xi_0[$i][$j];
+                                                    echo '<td>' . $Xi_Vij[$i][$j] . '</td>';
+                                                }
+                                                echo '</tr>';
+                                            }
                                             ?>
-                                                <tr>
-                                                    <td><?php echo $data_normal['tanggal'][$i]; ?></td>
-                                                    <td><?php echo $no_xi; ?></td>
-                                                    <td><?php echo $Xi_Vij["Z1"][$i]; ?></td>
-                                                    <td><?php echo $Xi_Vij["Z2"][$i]; ?></td>
-                                                    <td><?php echo $Xi_Vij["Z3"][$i]; ?></td>
-                                                    <td><?php echo $Xi_Vij["Z4"][$i]; ?></td>
-                                                    <td><?php echo $Xi_Vij["Z5"][$i]; ?></td>
-                                                    <td><?php echo $Xi_Vij["Z6"][$i]; ?></td>
-                                                </tr>
-                                            <?php } ?>
-                                            <tr>
-                                                <td><?php echo "1"; ?></td>
-                                                <td><?php echo ""; ?></td>
-                                                <td><?php echo $Xi_0_bias[0]; ?></td>
-                                                <td><?php echo $Xi_0_bias[1]; ?></td>
-                                                <td><?php echo $Xi_0_bias[2]; ?></td>
-                                                <td><?php echo $Xi_0_bias[3]; ?></td>
-                                                <td><?php echo $Xi_0_bias[4]; ?></td>
-                                                <td><?php echo $Xi_0_bias[5]; ?></td>
-                                            </tr>
                                         </tbody>
-                                        <tfoot>
-                                            <tr>
-                                                <th>Tanggal</th>
-                                                <th>Xi</th>
-                                                <th>Data Terakhir</th>
-                                                <th>Data Pembukaan</th>
-                                                <th>Data Tertinggi</th>
-                                                <th>Data Terendah</th>
-                                                <th>Volume</th>
-                                                <th>Perubahan</th>
-                                            </tr>
-                                        </tfoot>
                                     </table>
                                 </div>
-
                                 <div class="col-12 my-3">
-                                    <h3 class="card-title alert alert-info">6. Proses Feedforward hasil di hidden layer (Znet)</h3>
+                                    <h3 class="card-title alert alert-secondary">6. Znet </h3>
                                 </div>
-                                <div class="col-12">
-                                    <table id="inisialisasi_bobot_awal" class="table table-bordered table-striped">
+                                <div class="col-12" style="overflow-x: scroll;">
+                                    <table class="table table-bordered table-striped">
                                         <thead>
-                                            <th>Znet_1</th>
-                                            <th>Znet_2</th>
-                                            <th>Znet_3</th>
-                                            <th>Znet_4</th>
-                                            <th>Znet_5</th>
-                                            <th>Znet_6</th>
+                                            <tr>
+                                                <?php
+                                                for ($i = 1; $i <= count($Vij); $i++) {
+                                                    echo '<th>Znet ' . $i . '</th>';
+                                                }
+                                                ?>
+                                            </tr>
                                         </thead>
                                         <tbody>
                                             <?php
                                             $Znet = array();
-
+                                            //count($Vij) = 3 (Z1,Z2,Z3)
                                             for ($i = 0; $i < count($Xi_Vij); $i++) {
-                                                $no_xi = $i + 1;
+                                                $no = $i + 1;
                                                 $Znet[$i] = 0;
-                                                for ($j = 0; $j < count($Xi_Vij["Z1"]); $j++) {
-                                                    $Znet[$i] = $Znet[$i] + $Xi_Vij["Z" . $no_xi][$j];
+                                                for ($j = 1; $j < count($Xi_Vij[0]); $j++) {
+                                                    $Znet[$i] = $Znet[$i] + $Xi_Vij[$i][$j];
                                                 }
-                                                $Znet[$i] = $Xi_0_bias[$i] + $Znet[$i];
-                                            } ?>
-                                            <tr>
-                                                <td><?php echo $Znet[0]; ?></td>
-                                                <td><?php echo $Znet[1]; ?></td>
-                                                <td><?php echo $Znet[2]; ?></td>
-                                                <td><?php echo $Znet[3]; ?></td>
-                                                <td><?php echo $Znet[4]; ?></td>
-                                                <td><?php echo $Znet[5]; ?></td>
-                                            </tr>
+                                                $Znet[$i] = $Vij["Z" . $no][0] + $Znet[$i];
+                                            }
+                                            echo '<tr>';
+                                            echo '<td>' . $Znet[0] . '</td>';
+                                            echo '<td>' . $Znet[1] . '</td>';
+                                            echo '<td>' . $Znet[2] . '</td>';
+                                            echo '</tr>';
+                                            ?>
                                         </tbody>
                                     </table>
                                 </div>
                                 <div class="col-12 my-3">
-                                    <h3 class="card-title alert alert-info">7. Proses Feedforward hasil di hidden layer (Znet) dengan fungsi aktivasi</h3>
+                                    <h3 class="card-title alert alert-secondary">7. Z </h3>
                                 </div>
-                                <div class="col-12">
-                                    <table id="inisialisasi_bobot_awal" class="table table-bordered table-striped">
+                                <div class="col-12" style="overflow-x: scroll;">
+                                    <table class="table table-bordered table-striped">
                                         <thead>
-                                            <th>Z_1</th>
-                                            <th>Z_2</th>
-                                            <th>Z_3</th>
-                                            <th>Z_4</th>
-                                            <th>Z_5</th>
-                                            <th>Z_6</th>
+                                            <tr>
+                                                <?php
+                                                for ($i = 1; $i <= count($Znet); $i++) {
+                                                    echo '<th>Z' . $i . '</th>';
+                                                }
+                                                ?>
+                                            </tr>
                                         </thead>
                                         <tbody>
                                             <?php
                                             $Z = array();
-
+                                            //count($Vij) = 3 (Z1,Z2,Z3)
                                             for ($i = 0; $i < count($Znet); $i++) {
-                                                $no_xi = $i + 1;
+                                                $no = $i + 1;
                                                 $Z[$i] = 1 / (1 + exp(-$Znet[$i]));
-                                            } ?>
-                                            <tr>
-                                                <td><?php echo $Z[0]; ?></td>
-                                                <td><?php echo $Z[1]; ?></td>
-                                                <td><?php echo $Z[2]; ?></td>
-                                                <td><?php echo $Z[3]; ?></td>
-                                                <td><?php echo $Z[4]; ?></td>
-                                                <td><?php echo $Z[5]; ?></td>
-                                            </tr>
+                                            }
+                                            echo '<tr>';
+                                            echo '<td>' . $Z[0] . '</td>';
+                                            echo '<td>' . $Z[1] . '</td>';
+                                            echo '<td>' . $Z[2] . '</td>';
+                                            echo '</tr>';
+                                            ?>
                                         </tbody>
                                     </table>
                                 </div>
                                 <div class="col-12 my-3">
-                                    <h3 class="card-title alert alert-info">8. Output Layer (Zj*Wjk)</h3>
+                                    <h3 class="card-title alert alert-secondary">8. Ynet dan Y</h3>
                                 </div>
-                                <div class="col-12">
-                                    <table id="inisialisasi_bobot_awal" class="table table-bordered table-striped">
+                                <div class="col-12" style="overflow-x: scroll;">
+                                    <table class="table table-bordered table-striped">
                                         <thead>
-                                            <th>Zj_Wj1</th>
-                                            <th>Zj_Wj2</th>
-                                            <th>Zj_Wj3</th>
-                                            <th>Zj_Wj4</th>
-                                            <th>Zj_Wj5</th>
-                                            <th>Zj_Wj6</th>
-                                        </thead>
-                                        <tbody>
-                                            <?php
-                                            $W0 = $Zi_bias;
-                                            $Wjk = $Zi;
-                                            $Zj_Wjk = array();
-                                            for ($i = 0; $i < count($Z); $i++) {
-                                                $no_xi = $i + 1;
-                                                $Zj_Wjk[$i] = $Z[$i] * $Wjk[$i];
-                                            } ?>
                                             <tr>
-                                                <td><?php echo $Zj_Wjk[0]; ?></td>
-                                                <td><?php echo $Zj_Wjk[1]; ?></td>
-                                                <td><?php echo $Zj_Wjk[2]; ?></td>
-                                                <td><?php echo $Zj_Wjk[3]; ?></td>
-                                                <td><?php echo $Zj_Wjk[4]; ?></td>
-                                                <td><?php echo $Zj_Wjk[5]; ?></td>
+                                                <td>Ynet</td>
+                                                <td>Y</td>
                                             </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="col-12 my-3">
-                                    <h3 class="card-title alert alert-info">9. Output Layer (Ynet)</h3>
-                                </div>
-                                <div class="col-12">
-                                    <table id="inisialisasi_bobot_awal" class="table table-bordered table-striped">
-                                        <thead>
-                                            <th>Ynet</th>
                                         </thead>
                                         <tbody>
                                             <?php
                                             $Ynet = 0;
-                                            for ($i = 0; $i < count($Zj_Wjk); $i++) {
-                                                $no_xi = $i + 1;
-                                                $Ynet = $Ynet + $Zj_Wjk[$i];
+                                            //count($Vij) = 3 (Z1,Z2,Z3)
+                                            for ($i = 0; $i < count($Z); $i++) {
+                                                $no = $i + 1;
+                                                $Ynet = $Ynet + $Z[$i] * $Wjk[$no];
                                             }
-                                            $Ynet = $W0 * $Ynet;
+                                            $Ynet = $Wjk[0] + $Ynet;
+                                            $Y = 1 / (1 + exp(-$Ynet));
+                                            echo '<tr>';
+                                            echo '<td>' . $Ynet . '</td>';
+                                            echo '<td>' . $Y . '</td>';
+                                            echo '</tr>';
                                             ?>
-                                            <tr>
-                                                <td><?php echo $Ynet; ?></td>
-                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
                                 <div class="col-12 my-3">
-                                    <h3 class="card-title alert alert-info">10. Hasil keluaran dengan fungsi aktivasi (Y)</h3>
+                                    <h3 class="card-title alert alert-secondary">9. Backward </h3>
                                 </div>
-                                <div class="col-12">
-                                    <table id="inisialisasi_bobot_awal" class="table table-bordered table-striped">
+                                <div class="col-12" style="overflow-x: scroll;">
+                                    <table class="table table-bordered table-striped">
                                         <thead>
-                                            <th>Y</th>
+                                            <tr>
+                                                <td>δk=(tk-yk) f’(y_netk)= (tk-yk) yk (1-yk) </td>
+                                            </tr>
                                         </thead>
                                         <tbody>
                                             <?php
-                                            $Y = 1 / (1 + exp(-$Ynet));
+                                            $b = array();
+                                            for ($i = 0; $i < count($Z); $i++) {
+                                                $b[$i] = ($Xi_0[$i][count($Xi_0[$i]) - 1] - $Y) * $Y * (1 - $Y);
+                                                echo '<tr>';
+                                                echo '<td>' . $b[$i] . '</td>';
+                                                echo '</tr>';
+                                            }
                                             ?>
-                                            <tr>
-                                                <td><?php echo $Y; ?></td>
-                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
-
                                 <div class="col-12 my-3">
-                                    <h3 class="card-title alert alert-danger">11. PROSES BACKWARD</h3>
+                                    <h3 class="card-title alert alert-secondary">10. Delta Wjk = abz </h3>
                                 </div>
-
+                                <div class="col-12" style="overflow-x: scroll;">
+                                    <table class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <td></td>
+                                                <td>∆wkj= α δk zj</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            $delta_wjk = array();
+                                            $a = 0.3;
+                                            for ($i = 0; $i < count($Z); $i++) {
+                                                $no = $i + 1;
+                                                $delta_wjk[$i] = $a * $b[$i] * $Z[$i];
+                                                echo '<tr>';
+                                                echo '<td>delta W' . $no . '</td>';
+                                                echo '<td>' . $delta_wjk[$i] . '</td>';
+                                                echo '</tr>';
+                                            }
+                                            ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-12 my-3">
+                                    <h3 class="card-title alert alert-secondary">11. factor δ unit tersembunyi berdasarkan kesalahan di setiap unit tersembunyi zj</h3>
+                                </div>
+                                <div class="col-12" style="overflow-x: scroll;">
+                                    <table class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <td>δ net 1</td>
+                                                <td>δ net 2</td>
+                                                <td>δ net 3</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            $bnet = array();
+                                            for ($i = 0; $i < count($Z); $i++) {
+                                                $no = $i + 1;
+                                                $bnet[$i] = $b[$i] * $Wjk[$no];
+                                            }
+                                            echo '<tr>';
+                                            echo '<td>' . $bnet[0] . '</td>';
+                                            echo '<td>' . $bnet[1] . '</td>';
+                                            echo '<td>' . $bnet[2] . '</td>';
+                                            echo '</tr>';
+                                            ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-12 my-3">
+                                    <h3 class="card-title alert alert-secondary">12. Faktor kesalahan δ unit tersembunyi</h3>
+                                </div>
+                                <div class="col-12" style="overflow-x: scroll;">
+                                    <table class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <td>δ 1</td>
+                                                <td>δ 2</td>
+                                                <td>δ 3</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            $b = array();
+                                            for ($i = 0; $i < count($bnet); $i++) {
+                                                $no = $i + 1;
+                                                $b[$i] = $bnet[$i] * $Z[$i] * (1 - $Z[$i]);
+                                            }
+                                            echo '<tr>';
+                                            echo '<td>' . $b[0] . '</td>';
+                                            echo '<td>' . $b[1] . '</td>';
+                                            echo '<td>' . $b[2] . '</td>';
+                                            echo '</tr>';
+                                            ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-12 my-3">
+                                    <h3 class="card-title alert alert-secondary">13. delta Vji</h3>
+                                </div>
+                                <div class="col-12" style="overflow-x: scroll;">
+                                    <table class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <?php
+                                                for ($j = 0; $j < count($Vij["Z" . $no]); $j++)
+                                                    echo '<td>delta vij ' . $j . '</td>';
+                                                ?>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            $delta_vij = array();
+                                            $a = 0.3;
+                                            for ($i = 0; $i < count($b); $i++) {
+                                                $no = $i + 1;
+                                                echo '<tr>';
+                                                for ($j = 0; $j < count($Vij["Z" . $no]); $j++) {
+                                                    $delta_vij[$i][$j] = $a * $b[$i] * $Vij["Z" . $no][$j];
+                                                    echo '<td>' . $delta_vij[$i][$j] . '</td>';
+                                                }
+                                                echo '</tr>';
+                                            }
+                                            ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-12 my-3">
+                                    <h3 class="card-title alert alert-secondary">14. Perubahan Bobot</h3>
+                                </div>
+                                <div class="col-12" style="overflow-x: scroll;">
+                                    <table class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <td>Wjk baru 1</td>
+                                                <td>Wjk baru 2</td>
+                                                <td>Wjk baru 3</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            $Wjk_baru = array();
+                                            for ($i = 0; $i < count($b); $i++) {
+                                                $no = $i + 1;
+                                                $Wjk_baru[$i] = $Wjk[$i] + $delta_wjk[$i];
+                                            }
+                                            echo '<tr>';
+                                            echo '<td>' . $Wjk_baru[0] . '</td>';
+                                            echo '<td>' . $Wjk_baru[1] . '</td>';
+                                            echo '<td>' . $Wjk_baru[2] . '</td>';
+                                            echo '</tr>';
+                                            ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-12 my-3">
+                                    <h3 class="card-title alert alert-secondary">15. Vji baru</h3>
+                                </div>
+                                <div class="col-12" style="overflow-x: scroll;">
+                                    <table class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <?php
+                                                for ($j = 0; $j < count($Vij["Z" . $no]); $j++)
+                                                    echo '<td>Vij baru ' . $j . '</td>';
+                                                ?>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            $Vij_baru = array();
+                                            $a = 0.3;
+                                            for ($i = 0; $i < count($b); $i++) {
+                                                $no = $i + 1;
+                                                echo '<tr>';
+                                                for ($j = 0; $j < count($Vij["Z" . $no]); $j++) {
+                                                    $Vij_baru[$i][$j] = $Vij["Z" . $no][$j] + $delta_vij[$i][$j];
+                                                    echo '<td>' . $Vij_baru[$i][$j] . '</td>';
+                                                }
+                                                echo '</tr>';
+                                            }
+                                            ?>
+                                        </tbody>
+                                    </table>
+                                </div>
 
                             </div>
 
