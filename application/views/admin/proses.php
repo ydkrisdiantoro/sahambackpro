@@ -150,10 +150,22 @@
                                             <?php
                                             $no = 0;
                                             $Vij = array();
-                                            for ($i = 0; $i <= $n; $i++) {
-                                                $Vij['Z1'][$i] = random();
-                                                $Vij['Z2'][$i] = random();
-                                                $Vij['Z3'][$i] = random();
+                                            // for ($i = 0; $i <= $n; $i++) {
+                                            //     $Vij['Z1'][$i] = random();
+                                            //     $Vij['Z2'][$i] = random();
+                                            //     $Vij['Z3'][$i] = random();
+
+                                            //     $no = $i + 1;
+                                            //     $print = "";
+                                            //     if ($i == 0) {
+                                            //         $print = 1;
+                                            //     } else {
+                                            //         $print = "X" . $i;
+                                            //     }
+                                            for ($i = 0; $i < count($input_hidden[0]); $i++) {
+                                                $Vij['Z1'][$i] = $input_hidden[$i]['z1'];
+                                                $Vij['Z2'][$i] = $input_hidden[$i]['z2'];
+                                                $Vij['Z3'][$i] = $input_hidden[$i]['z3'];
 
                                                 $no = $i + 1;
                                                 $print = "";
@@ -188,11 +200,14 @@
                                         </thead>
                                         <tbody>
                                             <?php
-                                            $Wjk = array('', '', '', '');
+                                            // print_r($hidden_output);
+                                            $Wjk = array();
+                                            foreach ($hidden_output as $ho) {
+                                                $Wjk[] = $ho["y"];
+                                            }
                                             for ($i = 0; $i < count($Wjk); $i++) {
                                                 $no = $i + 1;
                                                 $print = "";
-                                                $Wjk[$i] = random();
                                                 if ($i == 0) {
                                                     $print = 1;
                                                 } else {

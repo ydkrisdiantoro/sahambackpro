@@ -84,6 +84,8 @@ class Admin extends CI_Controller
         $data['nama_halaman'] = "Proses Backpro";
         $data['listdata'] = $this->admin_model->getDataSahamTerakhir();
         $data['data_training'] = $this->admin_model->getDataTraining();
+        $data["input_hidden"] = $this->admin_model->getBobotInputHidden();
+        $data["hidden_output"] = $this->admin_model->getBobotHiddenOutput();
         $this->load->view('admin/header');
         $this->load->view('admin/sidebar', $data);
         $this->load->view('admin/proses', $data);
@@ -106,6 +108,16 @@ class Admin extends CI_Controller
                 $x = $x . "#" . random_angka();
             }
             $this->admin_model->inputDataTraining($x);
+        }
+
+        // input ke hidden
+        for ($i = 0; $i < 8; $i++) {
+            $z1 = random_angka();
+            $z2 = random_angka();
+            $z3 = random_angka();
+            $y = random_angka();
+            $this->admin_model->inputInputHidden($z1, $z2, $z3);
+            $this->admin_model->inputHiddenOutput($y);
         }
     }
 }

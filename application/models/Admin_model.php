@@ -15,6 +15,16 @@ class Admin_model extends CI_Model
         $query = $this->db->get('data_saham');
         return $query->result_array();
     }
+    public function getBobotInputHidden()
+    {
+        $query = $this->db->get('bobot_input_hidden');
+        return $query->result_array();
+    }
+    public function getBobotHiddenOutput()
+    {
+        $query = $this->db->get('bobot_hidden_output');
+        return $query->result_array();
+    }
     public function inputSaham($tanggal, $terakhir, $pembukaan, $tertinggi, $terendah, $volume, $perubahan)
     {
         $data = [
@@ -42,5 +52,23 @@ class Admin_model extends CI_Model
             "x" => $x
         ];
         $this->db->insert("data_training", $data);
+    }
+    public function inputInputHidden($z1, $z2, $z3)
+    {
+        $data = [
+            "id" => NULL,
+            "z1" => $z1,
+            "z2" => $z2,
+            "z3" => $z3
+        ];
+        $this->db->insert("bobot_input_hidden", $data);
+    }
+    public function inputHiddenOutput($x)
+    {
+        $data = [
+            "id" => NULL,
+            "y" => $x
+        ];
+        $this->db->insert("bobot_hidden_output", $data);
     }
 }
