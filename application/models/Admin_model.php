@@ -4,12 +4,14 @@ class Admin_model extends CI_Model
 {
     public function getDataSaham()
     {
+        $this->db->order_by('tanggal', 'desc');
         $query = $this->db->get('data_saham');
         return $query->result_array();
     }
     public function getDataSahamTerakhir()
     {
         $this->db->select('id,tanggal, terakhir');
+        $this->db->order_by('id', 'desc');
         $query = $this->db->get('data_saham');
         return $query->result_array();
     }
@@ -29,6 +31,7 @@ class Admin_model extends CI_Model
     }
     public function getDataTraining()
     {
+        $this->db->order_by('id', 'desc');
         $query = $this->db->get('data_training');
         return $query->result_array();
     }
